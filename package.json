@@ -7,6 +7,9 @@
   },
   "author": "Alejandro Abad Carrascosa (alejandro.abad@hefame.es)",
   "license": "ISC",
-  "dependencies": {
-  }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hefame/sap-rfc-read-table-helper"
+  },
+  "dependencies": {}
 }
