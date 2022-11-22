@@ -1,6 +1,6 @@
 {
   "name": "sap-rfc-read-table-helper",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Función de ayuda para RFC_READ_TABLE",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
