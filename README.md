@@ -23,25 +23,20 @@ const rfcReadTable = require("sap-rfc-read-table-helper");
 const client = new noderfc.Client({ dest: "T01" });
 
 (async () => {
-    try {
+  try {
+    await client.open();
+    const result = await rfcReadTable(client, {
+      table: 'LIKP',
+      fields: ['VBELN', 'ERDAT', 'ERZET'],
+      where: 'VBELN LIKE "3% AND ERDAT GE "11072022" OR VBELN LIKE "4% AND ERDAT GE "10032021"',
+      skip: 10, // Campo opcional, por defecto 0
+      limit: 50 // Campo opcional, por defecto 0 (sin límite)
+    })
 
-        await client.open();
-
-        const result = await rfcReadTable(client, {
-            table: 'LIKP',
-            fields: ['VBELN', 'ERDAT', 'ERZET'],
-			where: 'VBELN LIKE "3% AND ERDAT GE "11072022" OR VBELN LIKE "4% AND ERDAT GE "10032021"',
-			skip: 10, // Campo opcional, por defecto 0
-            limit: 50 // Campo opcional, por defecto 0 (sin límite)
-        })
-
-        console.log(result);
-
-    } catch (err) {
-
-        console.error(err);
-
-    }
+    console.log(result);
+  } catch (err) {
+    console.error(err);
+  }
 })();
 ```
 
@@ -66,22 +61,21 @@ const rfcReadTable = require("sap-rfc-read-table-helper");
 const client = new noderfc.Client({ dest: "T01" });
 
 (async () => {
-    try {
+  try {
+    await client.open();
+    const result = await rfcReadTable(client, {
+      table: 'LIKP',
+      fields: ['VBELN', 'ERDAT', 'ERZET', 'BZIRK'],
+      where: 'VBELN LIKE "3% AND ERDAT GE "11072022" OR VBELN LIKE "4% AND ERDAT GE "10032021"',
+      skip: 0,
+      limit: 10,
+      fieldNameMap: ['invoice', null, 'time']
+    })
 
-        await client.open();
-        const result = await rfcReadTable(client, {
-            table: 'LIKP',
-            fields: ['VBELN', 'ERDAT', 'ERZET', 'BZIRK'],
-			where: 'VBELN LIKE "3% AND ERDAT GE "11072022" OR VBELN LIKE "4% AND ERDAT GE "10032021"',
-            skip: 0,
-            limit: 10,
-            fieldNameMap: ['invoice', null, 'time']
-        })
-
-        console.log(result);
-    } catch (err) {
-        console.error(err);
-    }
+    console.log(result);
+  } catch (err) {
+    console.error(err);
+  }
 })();
 ```
 
@@ -117,29 +111,28 @@ const rfcReadTable = require("sap-rfc-read-table-helper");
 const client = new noderfc.Client({ dest: "T01" });
 
 (async () => {
-    try {
+  try {
+    await client.open();
+    const result = await rfcReadTable(client, {
+      table: 'LIKP',
+      fields: ['VBELN', 'ERDAT', 'ERZET'],
+      where: 'VBELN LIKE "3% AND ERDAT GE "11072022" OR VBELN LIKE "4% AND ERDAT GE "10032021"',
+      skip: 0,
+      limit: 10,
+      fieldNameMap: ['invoice', 'date', 'time'],
+      fieldMapFn: (row) => {
+        // ¡ Podemos mutar la línea para ahorrar memoria !
+        row.jsDate = rfcReadTable.dateTimeUnion(row.ERDAT, row.time) ;
+        delete row.ERDAT;
+        delete row.time;
+        return row;
+      }
+    })
 
-        await client.open();
-        const result = await rfcReadTable(client, {
-            table: 'LIKP',
-            fields: ['VBELN', 'ERDAT', 'ERZET'],
-			where: 'VBELN LIKE "3% AND ERDAT GE "11072022" OR VBELN LIKE "4% AND ERDAT GE "10032021"',
-            skip: 0,
-            limit: 10,
-            fieldNameMap: ['invoice', 'date', 'time'],
-            fieldMapFn: (row) => {
-                // ¡ Podemos mutar la línea para ahorrar memoria !
-                row.jsDate = rfcReadTable.dateTimeUnion(row.ERDAT, row.time) ;
-				delete row.ERDAT;
-				delete row.time;
-                return row;
-            }
-        })
-
-        console.log(result);
-    } catch (err) {
-        console.error(err);
-    }
+    console.log(result);
+  } catch (err) {
+    console.error(err);
+  }
 })();
 ```
 
@@ -173,14 +166,14 @@ Para esto, es posible enviar en campo `sapClient` a `null`, y la función resolv
 
 ```javascript
 (async () => {
-	const query = await rfcReadTable(null, { // Importante que sapClient -> null
-		table: 'LIKP',
-		fields: ['VBELN', 'ERDAT', 'ERZET'],
-		where: 'VBELN LIKE "3% AND ERDAT GE "11072022" OR VBELN LIKE "4% AND ERDAT GE "10032021"',
-		skip: 0,
-		limit: 10
-	})
-	console.log(query);
+  const query = await rfcReadTable(null, { // Importante: sapClient -> null
+    table: 'LIKP',
+    fields: ['VBELN', 'ERDAT', 'ERZET'],
+    where: 'VBELN LIKE "3% AND ERDAT GE "11072022" OR VBELN LIKE "4% AND ERDAT GE "10032021"',
+    skip: 0,
+    limit: 10
+  })
+  console.log(query);
 })();
 ```
 
