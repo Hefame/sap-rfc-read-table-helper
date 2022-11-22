@@ -12,6 +12,8 @@ const rfcReadTable = async (sapClient, { table, fields, where, skip = 0, limit =
         }) : []
     }
 
+	if (!sapClient) return query;
+
     const rfcResult = await sapClient.call("RFC_READ_TABLE", query)
 
     const fieldFnList = rfcResult.FIELDS.map((fieldDescription, idx) => {

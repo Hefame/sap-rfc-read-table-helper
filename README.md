@@ -166,3 +166,40 @@ let dateObject = rfcReadTable.dateTimeUnion(dats, tims);
 // -> Date('2022-10-27T21:08:28.000Z')
 ```
 > Nota: Queda pendiente ver como puede tratarse la zona horaria, ya que el resultado del objeto Date va en hora ZULÚ, ya que SAP no tiene el concepto de timezone (la maravillosa cagada de ralentizar el tiempo en los cambios de hora estacionales).
+
+### Obtención de QUERY en crudo
+Es posible que queramos simplemente obtener la query de la consulta a la tabla, sin llegar a ejecutar la consulta.
+Para esto, es posible enviar en campo `sapClient` a `null`, y la función resolverá de manera inmediata la consulta.
+
+```javascript
+(async () => {
+	const query = await rfcReadTable(null, { // Importante que sapClient -> null
+		table: 'LIKP',
+		fields: ['VBELN', 'ERDAT', 'ERZET'],
+		where: 'VBELN LIKE "3% AND ERDAT GE "11072022" OR VBELN LIKE "4% AND ERDAT GE "10032021"',
+		skip: 0,
+		limit: 10
+	})
+	console.log(query);
+})();
+```
+
+```javascript
+{
+  {
+    QUERY_TABLE: 'LIKP',
+    ROWSKIPS: 10,
+    ROWCOUNT: 50,
+    OPTIONS: [
+      'VBELN LIKE "3%" AND ERDAT GE "11072022" OR VBELN LIKE "4%" AND ERDAT GE ',
+      '"12072022"'
+    ],
+    FIELDS: [
+      { FIELDNAME: 'VBELN' },
+      { FIELDNAME: 'ERDAT' },
+      { FIELDNAME: 'ERZET' }
+    ]
+  }
+}
+```
+```
