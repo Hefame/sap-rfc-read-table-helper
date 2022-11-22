@@ -1,11 +1,12 @@
 
 
-const rfcReadTable = async (sapClient, { table, fields, skip = 0, limit = 0, fieldNameMap = null, fieldMapFn = null }) => {
+const rfcReadTable = async (sapClient, { table, fields, where, skip = 0, limit = 0, fieldNameMap = null, fieldMapFn = null }) => {
 
     const query = {
         QUERY_TABLE: table,
         ROWSKIPS: skip,
         ROWCOUNT: limit,
+		OPTIONS: where?.length ? where.split(/(.{72})/).filter(o => o) : [],
         FIELDS: Array.isArray(fields) ? fields.map(fieldName => {
             return { FIELDNAME: fieldName }
         }) : []

@@ -29,7 +29,8 @@ const client = new noderfc.Client({ dest: "T01" });
 
         const result = await rfcReadTable(client, {
             table: 'LIKP',
-            fields: ['VBELN', 'ERDAT', 'ERZET']
+            fields: ['VBELN', 'ERDAT', 'ERZET'],
+			where: 'VBELN LIKE "3% AND ERDAT GE "11072022" OR VBELN LIKE "4% AND ERDAT GE "10032021"',
 			skip: 10, // Campo opcional, por defecto 0
             limit: 50 // Campo opcional, por defecto 0 (sin límite)
         })
@@ -71,6 +72,7 @@ const client = new noderfc.Client({ dest: "T01" });
         const result = await rfcReadTable(client, {
             table: 'LIKP',
             fields: ['VBELN', 'ERDAT', 'ERZET', 'BZIRK'],
+			where: 'VBELN LIKE "3% AND ERDAT GE "11072022" OR VBELN LIKE "4% AND ERDAT GE "10032021"',
             skip: 0,
             limit: 10,
             fieldNameMap: ['invoice', null, 'time']
@@ -121,6 +123,7 @@ const client = new noderfc.Client({ dest: "T01" });
         const result = await rfcReadTable(client, {
             table: 'LIKP',
             fields: ['VBELN', 'ERDAT', 'ERZET'],
+			where: 'VBELN LIKE "3% AND ERDAT GE "11072022" OR VBELN LIKE "4% AND ERDAT GE "10032021"',
             skip: 0,
             limit: 10,
             fieldNameMap: ['invoice', 'date', 'time'],
