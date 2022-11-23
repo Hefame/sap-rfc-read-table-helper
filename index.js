@@ -1,6 +1,6 @@
 
 
-const rfcReadTable = async (sapClient, { table, fields, where, skip = 0, limit = 0, fieldNameMap = null, fieldMapFn = null }) => {
+const rfcReadTable = async (sapClient, { table, fields, where, skip = 0, limit = 0, fieldNameMap = null, rowMapFn = null }) => {
 
     const query = {
         QUERY_TABLE: table,
@@ -38,14 +38,14 @@ const rfcReadTable = async (sapClient, { table, fields, where, skip = 0, limit =
 
     });
 
-    if (fieldMapFn) {
+    if (rowMapFn) {
         return rfcResult.DATA.map(line => {
             const r = {};
             fieldFnList.forEach(fieldFn => {
                 fieldFn(line.WA, r)
                 
             })
-            return fieldMapFn(r);
+            return rowMapFn(r);
         })
     }
 

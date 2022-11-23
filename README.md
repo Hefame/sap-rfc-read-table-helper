@@ -96,9 +96,9 @@ A la salida, los campos obtenidos de leer la tabla, cuyos nombres son `['VBELN',
 ```
 
 
-### Funcion de mapeo
+### Funcion de mapeo de filas
 
-Es posible ejecutar una función de mapeo para cada línea devuelta por la lectura de la tabla. Esta función se especifica con el parámetro `fieldMapFn`, que recibe una función que es llamada con la línea tratada, antes de ser devuelta, y debe devolver el nuevo valor para la línea (¡Es posible mutar y devolver el mismo objeto de linea!).
+Es posible ejecutar una función de mapeo para cada línea devuelta por la lectura de la tabla. Esta función se especifica con el parámetro `rowMapFn`, que recibe una función que es llamada con la línea tratada, antes de ser devuelta, y debe devolver el nuevo valor para la línea (¡Es posible mutar y devolver el mismo objeto de linea!).
 
 > Nótese que si se llama a `rfcReadTable` con la opción `fieldNameMap`, el objeto con los valores de la línea aparece con los nombres ya cambiados por los indicados.
 
@@ -120,7 +120,7 @@ const client = new noderfc.Client({ dest: "T01" });
       skip: 0,
       limit: 10,
       fieldNameMap: ['invoice', 'date', 'time'],
-      fieldMapFn: (row) => {
+      rowMapFn: (row) => {
         // ¡ Podemos mutar la línea para ahorrar memoria !
         row.jsDate = rfcReadTable.dateTimeUnion(row.ERDAT, row.time) ;
         delete row.ERDAT;
