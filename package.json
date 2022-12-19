@@ -1,5 +1,5 @@
 {
-  "name": "sap-rfc-read-table-helper",
+  "name": "@hefame/rfc-read-table",
   "version": "1.1.1",
   "description": "Función de ayuda para RFC_READ_TABLE",
   "scripts": {
