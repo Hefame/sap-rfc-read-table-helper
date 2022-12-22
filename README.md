@@ -9,7 +9,7 @@ Este paquete provee de funciones que ayudan a realizar la llamada a la RFC remot
 La funcionalidad se instala como un paquete NPM estándard.
 
 ```
-npm install sap-rfc-read-table-helper --save
+npm install @hefame/rfc-read-table --save
 ```
 
 ## Uso
@@ -18,7 +18,7 @@ El uso básico de la función, es tal que así.
 
 ```javascript
 const noderfc = require("node-rfc");
-const rfcReadTable = require("sap-rfc-read-table-helper");
+const rfcReadTable = require("@hefame/rfc-read-table");
 
 const client = new noderfc.Client({ dest: "T01" });
 
@@ -56,7 +56,7 @@ Opcionalmente, podemos indicar un array de nombres de campos `fieldNameMap` , de
 
 ```javascript
 const noderfc = require("node-rfc");
-const rfcReadTable = require("sap-rfc-read-table-helper");
+const rfcReadTable = require("@hefame/rfc-read-table");
 
 const client = new noderfc.Client({ dest: "T01" });
 
@@ -106,7 +106,7 @@ Es posible ejecutar una función de mapeo para cada línea devuelta por la lectu
 
 ```javascript
 const noderfc = require("node-rfc");
-const rfcReadTable = require("sap-rfc-read-table-helper");
+const rfcReadTable = require("@hefame/rfc-read-table");
 
 const client = new noderfc.Client({ dest: "T01" });
 
